@@ -5,4 +5,4 @@ aby je przetestować wystarczy skopiować kod do wcześniej wspomnianego kompila
 
 Dane użyte w zadaniu 4-5 są losowymi place holderami.
 
-Pliki w tym repozytorium są zwykłymi plikami tektsowymi.
+Pliki w tym repozytorium są zwykłymi plikami tekstowymi.
