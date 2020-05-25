@@ -1,0 +1,142 @@
+import Foundation
+import Glibc
+ 
+protocol DoneWithThat{
+    var status: Bool { get set }
+    func Done()
+}
+
+protocol CheckListDelegate{
+    func ShowDescription()
+}
+
+class CheckListElement: CustomStringConvertible, DoneWithThat{
+    var CheckListDelegate: CheckListDelegate?
+    var textField: String
+    var status: Bool
+    var statusDescription: String
+    var day: String
+    var dayNum: Int
+    let daysTouple: [Int:String] = [1: "Poniedziałek", 2: "Wtorek", 3:"Środa", 4:"Czwartek", 5:"Piątek", 6:"Sobota", 7:"Niedziela"]
+    let between: String = " -> "
+    let statusDescriptionTouple = ("Do wykonania", "Gotowe") //if Bool false get 0, if true 1
+    
+    func Done(){
+        if self.status == false {
+            self.status = true
+            self.statusDescription = self.statusDescriptionTouple.1
+        }
+        CheckListDelegate?.ShowDescription()
+    }
+   
+    // protocol descripton that give back
+    var description: String { 
+        
+        return "\(day) \(textField)\(between)\(statusDescription)"
+        
+    }
+    
+    // init with custom value for textField and current status
+    init(dayNum: Int, textField: String, status: Bool) { 
+        self.textField = textField
+        self.status = status
+        
+    // setting statusDescription for easy use of CustomStringConvertible
+        if self.status == true {
+        self.statusDescription = self.statusDescriptionTouple.1
+        }
+        else
+        {
+        self.statusDescription = self.statusDescriptionTouple.0
+        }
+    
+    // day setting with day name taken from daysTouple, taken to the init as number of day of the week but given back as name
+   
+    self.dayNum = dayNum
+    self.day = daysTouple[dayNum] as String!
+     
+ 
+    }
+    
+    // init without parameters
+    // !!! if init without parameters is used it is always monday !!!
+    convenience init(){ 
+        self.init(dayNum:1, textField:"Jakaś czynność", status:false)
+    }
+    
+    //function that print textfield -> statusDescriptionTouple based on status boolean value
+      func Description() -> String {
+      if status == true {
+     return (self.day + " " + self.textField + self.between + self.statusDescriptionTouple.1 )
+     
+     }
+      else {
+     return (self.day + " " + self.textField + self.between + self.statusDescriptionTouple.0 )  
+      }
+      
+      }
+}
+
+class CheckList: CheckListDelegate{
+ 
+    var arrayOfCheckListElement: [CheckListElement]
+    
+    // implementation of protocol
+    func ShowDescription(){
+        for i in arrayOfCheckListElement{
+            print(String(describing:i))
+        }
+    }
+    
+    init(arrayOfCheckListElement: [CheckListElement]){
+    self.arrayOfCheckListElement = arrayOfCheckListElement
+        
+    }
+    // could use for in loop with steps (ex. from: 1, through: max, by: 2) or do this vvv
+    func ShowOneInThree(){
+        var c = 0
+        for i in arrayOfCheckListElement{
+                    
+            if c == 2 {
+            print(String(describing:i))
+            c = 0
+            }
+            else
+            {
+            c = c + 1
+            }
+            
+        }
+    }
+    
+}
+
+
+let x = CheckListElement(dayNum:6, textField:"Stworzenie klasy CheckListElement", status:false )
+let y = CheckListElement()
+
+//some more data for testing ShowDescription()
+var arrElement: [CheckListElement] = [
+CheckListElement(dayNum:6, textField:"Stworzenie klasy CheckListElement", status:false ),
+CheckListElement(dayNum:2, textField:"Dalsze prace nad programem", status:false ),
+CheckListElement(dayNum:1, textField:"Dele-delegacje", status:false ),
+CheckListElement(dayNum:7, textField:"Ipsium Lorem", status:false ),
+CheckListElement(dayNum:5, textField:"Place holder number 9", status:false ),
+CheckListElement(dayNum:2, textField:"2, 3, 5, 7, 11, 13, 17, 19", status:false ),
+CheckListElement(dayNum:3, textField:"Wyprowadzić psa", status:false ),
+CheckListElement(dayNum:6, textField:"Ściąc drzewo", status:false ),
+CheckListElement(dayNum:2, textField:"Zasiać drzewo", status:false ),
+CheckListElement(dayNum:1, textField:"Wynaleść maszyne do podróży w czasie", status:false ),
+CheckListElement(dayNum:1, textField:"Git commit - git push ", status:false ),
+CheckListElement(dayNum:7, textField:"Nauczyć się Swift'a", status:false ),
+CheckListElement(dayNum:7, textField:"Złamać szyfr przed siedzibą CIA", status:false )]
+
+arrElement.append(x)
+arrElement.append(y)
+
+var clist = CheckList(arrayOfCheckListElement: arrElement)
+
+clist.arrayOfCheckListElement[2].Done()
+clist.arrayOfCheckListElement[5].Done()
+clist.arrayOfCheckListElement[8].Done()
+clist.ShowOneInThree()
