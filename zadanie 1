@@ -1,0 +1,61 @@
+import Foundation
+import Glibc
+ 
+
+
+class CheckListElement: CustomStringConvertible{
+    var textField : String
+    var status : Bool
+    var statusDescription : String
+    let between : String = " -> "
+    let statusDescriptionTouple = ("Do wykonania", "Gotowe") //if Bool false get 0, if true 1
+    
+      
+    
+    // protocol descripton that give back
+    var description: String { 
+        return "\(textField)\(between)\(statusDescription)"
+        
+    }
+    
+    // init with custom value for textField and current status
+    init(textField: String, status: Bool) { 
+        self.textField = textField
+        self.status = status
+        
+    // setting statusDescription for easy use of CustomStringConvertible
+        if status == true {
+        self.statusDescription = self.statusDescriptionTouple.1
+        }
+        else
+        {
+        self.statusDescription = self.statusDescriptionTouple.0
+        }
+ 
+    }
+    
+    // init without parameters
+    convenience init(){
+        self.init(textField:"Jakaś czynność", status:false)
+    }
+    
+    //function that print textfield -> statusDescriptionTouple based on status boolean value
+      func Description() -> String {
+      if status == true {
+     return (self.textField + self.between + self.statusDescriptionTouple.1)
+     }
+      else {
+     return (self.textField + self.between + self.statusDescriptionTouple.0 )  
+      }}
+}
+
+// test of init with params
+let x = CheckListElement(textField:"Stworzenie klasy CheckListElement", status:true)
+var q = x.Description()
+var a = String(describing:x)
+print("init with parameters\n" + a + "\n" + q)
+// test of init without params
+let y = CheckListElement()
+var b = String(describing:y)
+var w = y.Description()
+print("init without parameters\n" + b + "\n" + w)
