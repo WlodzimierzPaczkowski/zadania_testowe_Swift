@@ -11,7 +11,7 @@ protocol CheckListDelegate{
 }
 
 class CheckListElement: CustomStringConvertible, DoneWithThat{
-    var CheckListDelegate: CheckListDelegate?
+    var Delegate: CheckListDelegate?
     var textField: String
     var status: Bool
     var statusDescription: String
@@ -26,7 +26,7 @@ class CheckListElement: CustomStringConvertible, DoneWithThat{
             self.status = true
             self.statusDescription = self.statusDescriptionTouple.1
         }
-        CheckListDelegate?.ShowDescription()
+        Delegate?.ShowDescription()
     }
    
     // protocol descripton that give back
@@ -78,8 +78,9 @@ class CheckListElement: CustomStringConvertible, DoneWithThat{
 }
 
 class CheckList: CheckListDelegate{
- 
+    var CheckListElement: CheckListElement?
     var arrayOfCheckListElement: [CheckListElement]
+    
     
     // implementation of protocol
     func ShowDescription(){
@@ -88,11 +89,15 @@ class CheckList: CheckListDelegate{
         }
     }
     
+    
+    
     init(arrayOfCheckListElement: [CheckListElement]){
     self.arrayOfCheckListElement = arrayOfCheckListElement
-        
+
+    CheckListElement?.Delegate = self
+   
     }
-    // could use for in loop with steps (ex. from: 1, through: max, by: 2) or do this vvv
+    // simple if to print only once evry 3 objects from array
     func ShowOneInThree(){
         var c = 0
         for i in arrayOfCheckListElement{
@@ -113,6 +118,7 @@ class CheckList: CheckListDelegate{
 
 
 let x = CheckListElement(dayNum:6, textField:"Stworzenie klasy CheckListElement", status:false )
+
 let y = CheckListElement()
 
 //some more data for testing ShowDescription()
