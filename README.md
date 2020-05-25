@@ -3,6 +3,6 @@ zadania te są wykonywane przy pomocy kompilatora online (na tej stronie https:/
 
 aby je przetestować wystarczy skopiować kod do wcześniej wspomnianego kompilatora i wcisnąc "execute".
 
-Dane w użyte w zadaniu 4-5 są place holderami.
+Dane użyte w zadaniu 4-5 są losowymi place holderami.
 
 Pliki w tym repozytorium są zwykłymi plikami tektsowymi.
